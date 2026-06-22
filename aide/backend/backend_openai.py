@@ -71,7 +71,7 @@ def query(
     # Use different API based on whether this is a non-OpenAI model with custom base URL
     model_name = filtered_kwargs.get("model", "")
     #exclude gpt oss model
-    is_openai_model = re.match(r"^(gpt-(?!oss)([a-zA-Z0-9._-]+)?|o\d-|codex-mini-latest)$", model_name)
+    is_openai_model = re.match(r"^(gpt-(?!oss)([a-zA-Z0-9._-]+)?|o\d-|codex-mini-latest|tgpt/qwen35-397b-a17b-fp8)$", model_name)
     use_chat_api = os.getenv("OPENAI_BASE_URL") is not None and not is_openai_model
 
     if use_chat_api:
@@ -82,6 +82,7 @@ def query(
             filtered_kwargs["tools"] = [func_spec.as_openai_tool_dict]
             filtered_kwargs["tool_choice"] = func_spec.openai_tool_choice_dict
     else:
+        _setup_custom_client()
         # OpenAI responses API (for official OpenAI models)
         messages = opt_messages_to_list(system_message, user_message)
         # Convert to the responses API format
