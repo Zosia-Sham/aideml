@@ -71,7 +71,7 @@ def query(
     # Use different API based on whether this is a non-OpenAI model with custom base URL
     model_name = filtered_kwargs.get("model", "")
     #exclude gpt oss model
-    is_openai_model = re.match(r"^(gpt-(?!oss)([a-zA-Z0-9._-]+)?|o\d-|codex-mini-latest|tgpt/qwen35-397b-a17b-fp8)$", model_name)
+    is_openai_model = re.match(r"^(gpt-(?!oss)([a-zA-Z0-9._-]+)?|o\d-|codex-mini-latest)$", model_name)
     print("----------------", is_openai_model, "-------------------")
     use_chat_api = os.getenv("OPENAI_BASE_URL") is not None and not is_openai_model
     print("----------------", use_chat_api, "-------------------")
