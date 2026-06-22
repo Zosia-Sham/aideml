@@ -1,5 +1,5 @@
 """Backend for OpenAI API."""
-
+import httpx
 import json
 import logging
 import os
@@ -41,7 +41,7 @@ def _setup_custom_client():
     api_key = os.getenv("OPENAI_API_KEY")
     if base_url:
         _custom_client = openai.OpenAI(
-            api_key=api_key, base_url=base_url, max_retries=0
+            api_key=api_key, base_url=base_url, max_retries=0, http_client=httpx.Client(verify=False)
         )
 
 
